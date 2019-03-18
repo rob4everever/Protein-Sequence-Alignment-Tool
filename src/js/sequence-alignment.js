@@ -27,7 +27,7 @@ export default class SequenceAligner {
 
         //put in the gap penalties
         for(var i=1;i<=this.s2.length;i++) {
-            this.arr[0][i] = this.arr[i][0] = -1 * i;
+            this.arr[0][i] = this.gp * i;
         }
 
         for(var i=1;i<=this.s2.length;i++) {
@@ -39,12 +39,12 @@ export default class SequenceAligner {
                 );
             }
         }
-
-
+        console.log(this.arr);
         return this.arr;
     }
 
     scoreAlignment() {
+        this.score = this.arr[this.arr.length-1][this.arr[0].length-1];
         return this.score;
     }
 };
@@ -52,31 +52,24 @@ export default class SequenceAligner {
 /* 
 var s1 = "GCATGCU";
 var s2 = "GATTACA";
-
 var sp = 1;
 var gp = -1;
 var gc = "-";
-
 //generate grid array
 var arr = [];
-
 //create an empty array of arrays
 for(var i=0;i<=s2.length;i++) {
     arr[i] = [];
-
     for(var j=0;j<=s1.length;j++) {
         arr[i][j] = null;
     }
 }
-
 //set the top corner value to 0
 arr[0][0] = 0;
-
 //put in the gap penalties
 for(var i=1;i<=s2.length;i++) {
     arr[0][i] = arr[i][0] = -1 * i;
 }
-
 for(var i=1;i<=s2.length;i++) {
     for(var j=1;j<=s1.length;j++) {
         arr[i][j] = Math.max(
@@ -86,23 +79,17 @@ for(var i=1;i<=s2.length;i++) {
         );
     }
 }
-
 var as1 = "";
 var as2 = "";
-
-
 var i = s2.length;
 var j = s1.length;
 var sq1 = [];
 var sq2 = [];
-
 do {
-
     var t = arr[i-1][j];
     var d = arr[i-1][j-1];
     var l = arr[i][j-1];
     var max = Math.max(t, d, l);
-
     switch(max) {
         case t:
             i--;
@@ -121,8 +108,6 @@ do {
             sq2.push(gc);
             break;
     }
-
 } while(i>0 && j>0);
-
 console.log(sq1.reverse());
 console.log(sq2.reverse()); */

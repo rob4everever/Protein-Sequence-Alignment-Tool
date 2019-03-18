@@ -1,0 +1,54 @@
+@import 'typography';   
+@import 'grid';
+
+html {
+    font-size: 62.5%; 
+}
+
+body{
+    font-size: 1.5em; /* currently ems cause chrome bug misinterpreting rems on body element */
+    line-height: 3.6;
+    font-weight: 400;
+    color: #222; 
+    background-color: #F2F2F2;
+    width: 100%;
+}
+
+body::after, body::before,
+input::after,
+input::before,
+select::after,
+select::before,
+textarea::after,
+textarea::before,
+body *::after,
+body *::before {
+  box-sizing: border-box;
+}
+
+body,
+input,
+select,
+textarea,
+body * {
+  font-family: 'Roboto', sans-serif;
+  box-sizing: border-box;
+}
+
+th,
+td {
+    padding: 6px 7px;
+    text-align: center;
+    border-bottom: 1px solid #e1e1e1;
+    border-right: 1px solid #e1e1e1;
+}
+
+th:first-child,
+td:first-child {
+    padding-left: 0;
+}
+
+th:last-child,
+td:last-child {
+    padding-right: 0;
+}
