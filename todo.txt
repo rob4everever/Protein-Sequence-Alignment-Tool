@@ -1,0 +1,8 @@
+1) display the best alignment
+2) display several alignment options
+3) add the traceback feature
+4) add an option for affine gap penalty
+5) implement local alignment
+6) add matrix tool tips
+7) add algorithm explanations
+8) finish the css and make the app look good

@@ -1,12 +1,10 @@
-export function scoreMatch_blosum(a, b, ) {
+export function scoreMatch_blosum(a, b) {
 
-    if (a === undefined) {
-        a = '';
-    }
-    if (b === undefined) {
-        b = '';
-    }
+    //turn null values into '' to query the subsitution matrix
+    if (a === undefined) { a = ''; }
+    else if (b === undefined) { b = ''; }
 
+    //Blosum62 Subsitution Matrix
     var blosum = {
         '': {
             '': 1, 'A': -4, 'C': -4, 'B': -4, 'E': -4,
@@ -201,25 +199,40 @@ export function scoreMatch_blosum(a, b, ) {
         }
     }
 
-    var aa = a.toUpperCase();
-    var bb = b.toUpperCase();
+    //return the score of the two characters
 
-    return blosum[aa][bb];
+    return blosum[a][b];
 }
 
-export function scoreMatch_pam(a, b, ) {
 
-    if (a === undefined) {
-        a = '';
-    }
-    if (b === undefined) {
-        b = '';
-    }
 
-    var pam = {
-        '': {
-            '': 1, 'A': 1,
 
-        },
-    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export function scoreMatch_pam(a, b) {
+
 }

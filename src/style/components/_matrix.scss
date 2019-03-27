@@ -1,15 +1,26 @@
 .matrix {
-    width: 100%;
     display: block;
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+    background-color: white;
+    padding: 20px;
 
-    table {
-        margin: 10px auto;
+    table{
+        width: 100;
         text-align: center;
-        width: 80%;
-    }
+        border: 1px solid rgb(222, 226, 230);
 
-    .tableHeader{
-        font-weight: 800;
-        text-transform: uppercase;
+
+        tr, td{
+            border-right: 1px solid rgb(222, 226, 230);
+        }
+
+        .tableHeader{
+            font-weight: 600;
+            font-size: 18px;
+            text-transform: uppercase;
+            background: red;
+        }
     }
 }
