@@ -12,12 +12,11 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sequence1: '',
-            sequence2: '',
+            sequence1: 'WAHA',
+            sequence2: 'HHASU',
             needleman: true,
             scoresystem: 'blosum',
             gappenalty: -8,
-            affine: false,
             matchscore: 1,
             mismatchscore: -1,
         }

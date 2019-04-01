@@ -19,24 +19,9 @@ export default class Form extends React.Component {
                 <div className="row">
                     <div className="col-12">
                         <div className="form-group">
-                            {
-                                this.props.needleman === true ? (
-                                    <div className="header bg-success">
-                                        <div className="custom-control custom-switch">
-                                            <input type="checkbox" className="custom-control-input" id="needleman" name="needleman" checked={(this.props.needleman == true)} onChange={this.props.toggleAlignment} />
-                                            <label className="custom-control-label" htmlFor="needleman"> Needleman-Wunsch (Global)  </label>
-                                        </div>
-                                    </div>
-                                ) : (
-                                        <div className="header bg-primary">
-                                            <div className="custom-control custom-switch">
-                                                <input type="checkbox" className="custom-control-input" id="needleman" name="needleman" checked={(this.props.needleman == true)} onChange={this.props.toggleAlignment} />
-                                                <label className="custom-control-label" htmlFor="needleman"> Smith-Waterman (Local) </label>
-                                            </div>
-                                        </div>
-                                    )
-                            }
-
+                            <div className="header bg-success">
+                                Biological Sequence Aligner 
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -44,12 +29,12 @@ export default class Form extends React.Component {
                     <div className="row">
                         <div className="col">
                             <div className="form-group">
-                                <input type="text" name="s1" id="s1" placeholder="Sequence..." maxLength="20" className="form-control" value={this.props.sequence1.value} onChange={event => this.props.updateState(event, 'sequence1')} />
+                                <input type="text" name="s1" id="s1" maxLength="20" className="form-control" value={this.props.sequence1.value} onChange={event => this.props.updateState(event, 'sequence1')} />
                             </div>
                         </div>
                         <div className="col">
                             <div className="form-group">
-                                <input type="text" name="s2" id="s2" placeholder="Sequence..." maxLength="20" className="form-control" value={this.props.sequence2.value} onChange={event => this.props.updateState(event, 'sequence2')} />
+                                <input type="text" name="s2" id="s2" maxLength="20" className="form-control" value={this.props.sequence2.value} onChange={event => this.props.updateState(event, 'sequence2')} />
                             </div>
                         </div>
                     </div>

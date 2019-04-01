@@ -8,10 +8,6 @@ export default class Matrix extends React.Component {
 
     constructor(props) {
         super(props);
-        this.results = {
-            rob: "tob",
-            soose: "soose"
-        };
     }
 
     /**
@@ -24,8 +20,7 @@ export default class Matrix extends React.Component {
         //Align sequences with the provided config optios
         let sequenceAligner = new SequenceAligner(this.props.sequence1, this.props.sequence2,
             this.props.matchscore, this.props.mismatchscore,
-            this.props.gappenalty, this.props.affine,
-            this.props.needleman, this.props.scoresystem);
+            this.props.gappenalty, this.props.needleman, this.props.scoresystem);
 
         let scoreMatrix = sequenceAligner.getScoreMatrix();
         this.optimalPath = sequenceAligner.getBestPath();
@@ -90,10 +85,6 @@ export default class Matrix extends React.Component {
         //Get the best alignment and its score
         this.results = sequenceAligner.getResults();
         return table;
-    }
-
-    doathing() {
-        console.log("d");
     }
 
     /**

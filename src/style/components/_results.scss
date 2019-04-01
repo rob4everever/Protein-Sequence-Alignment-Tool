@@ -9,13 +9,19 @@
     .title{
         font-weight: 600;
     }
+
+    .alignment{
+        text-align: left;
+    }
+
+    .score{
+        text-align: right;
+    }
 }
 
 .explanation{
     display: block;
     margin: 0 auto;
-    width: 80%;
     background-color: white;
-    padding: 20px;
-    text-align: center;
+    text-align: left;
 }
