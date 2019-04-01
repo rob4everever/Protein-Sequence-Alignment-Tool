@@ -151,9 +151,9 @@ export default class SequenceAligner {
     }
 
     getcalc(){
-
         return this.calc;
     }
+    
     /**
      * Recursive functions that follows an optimal path from the final cell to the first cell
      * 
@@ -169,7 +169,7 @@ export default class SequenceAligner {
 
                 if(this.scoresystem === "custom"){
                     var calculation = "Score derived from the diagonal cell"+'<br />' 
-                    + this.scoreArray[i-1][j-1] +  " + " + (this.s2[i - 1] === this.s1[j - 1] ? parseInt(this.match) : parseInt(this.miss)) + " = " + (this.scoreArray[i-1][j-1] + (this.s2[j - 1] === this.s1[i - 1] ? parseInt(this.match) : parseInt(this.miss)));
+                    + this.scoreArray[i-1][j-1] +  " + " + (this.s2[j - 1] === this.s1[i - 1] ? parseInt(this.match) : parseInt(this.miss)) + " = " + (this.scoreArray[i-1][j-1] + (this.s2[j - 1] === this.s1[i - 1] ? parseInt(this.match) : parseInt(this.miss)));
                 }
                 else{
                     var calculation = "Score derived from the diagonal cell"+'<br />' 
