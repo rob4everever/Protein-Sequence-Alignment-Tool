@@ -14,6 +14,3 @@ System must have NodeJS installed
 `src/`  - Source code
 
 `dist/` - Production code
-
-`doc/`  - Docs
-
