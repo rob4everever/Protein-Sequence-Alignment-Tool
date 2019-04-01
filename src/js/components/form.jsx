@@ -63,13 +63,6 @@ export default class Form extends React.Component {
                         </div>
                         <div className="col">
                             <div className="form-group custom-control custom-radio custom-control-inline">
-                                <input name="pam" type="radio" className="custom-control-input" id="pam" value="pam" checked={(this.props.scoresystem == 'pam')} onChange={event => this.props.updateState(event, 'scoresystem')} />
-                                <label className="custom-control-label" htmlFor="pam">PAM250</label>
-
-                            </div>
-                        </div>
-                        <div className="col">
-                            <div className="form-group custom-control custom-radio custom-control-inline">
                                 <input name="custom" type="radio" className="custom-control-input" id="custom" value="custom" checked={(this.props.scoresystem == 'custom')} onChange={event => this.props.updateState(event, 'scoresystem')} />
                                 <label className="custom-control-label" htmlFor="custom">CUSTOM</label>
                             </div>
@@ -93,7 +86,7 @@ export default class Form extends React.Component {
                                     <input type="number" className="form-control" id="id" name="gapPenalty" defaultValue={this.props.gappenalty} max="0" value={this.props.gappenalty.value} onChange={event => this.props.updateState(event, 'gappenalty')} />
                                     Gap Score
                                 </label>
-                                
+
                             </div>
                         </div>
                         <div className="col">
@@ -113,6 +106,3 @@ export default class Form extends React.Component {
         )
     }
 }
-
-//<label className="custom-control-label" htmlFor="aff">Affine</label>
-//<input type="checkbox" name="affine" id="aff" className="custom-control-input" onChange={this.props.toggleAffine} checked={this.props.affine} />

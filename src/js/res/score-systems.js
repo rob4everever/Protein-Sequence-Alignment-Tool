@@ -1,5 +1,10 @@
 export function scoreMatch_blosum(a, b) {
 
+
+    if(a === 'J' || a === 'U' || a === 'O'){return null}
+    if(b === 'J' || b === 'U' || b === 'O'){return null}
+
+
     //turn null values into '' to query the subsitution matrix
     if (a === undefined) { a = ''; }
     else if (b === undefined) { b = ''; }
@@ -12,7 +17,7 @@ export function scoreMatch_blosum(a, b) {
             'K': -4, 'M': -4, 'L': -4, 'N': -4, 'Q': -4,
             'P': -4, 'S': -4, 'R': -4, 'T': -4, 'W': -4,
             'V': -4, 'Y': -4, 'X': -4, 'Z': -4
-        },
+        },//j  u o
 
         'A': {
             '': -4, 'A': 4, 'C': 0, 'B': -2, 'E': -1,
@@ -200,39 +205,5 @@ export function scoreMatch_blosum(a, b) {
     }
 
     //return the score of the two characters
-
     return blosum[a][b];
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-export function scoreMatch_pam(a, b) {
-
 }

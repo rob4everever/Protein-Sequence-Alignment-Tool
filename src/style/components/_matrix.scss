@@ -10,7 +10,14 @@
         width: 100;
         text-align: center;
         border: 1px solid rgb(222, 226, 230);
-
+        
+        
+        .first{
+            background-color: orange;
+        }
+        .path{
+            background-color: yellow;
+        }
 
         tr, td{
             border-right: 1px solid rgb(222, 226, 230);
@@ -20,7 +27,6 @@
             font-weight: 600;
             font-size: 18px;
             text-transform: uppercase;
-            background: red;
         }
     }
 }
