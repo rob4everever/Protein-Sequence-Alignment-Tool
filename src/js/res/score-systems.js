@@ -1,9 +1,8 @@
+//Blosum62 scoring system
 export function scoreMatch_blosum(a, b) {
-
 
     if(a === 'J' || a === 'U' || a === 'O'){return null}
     if(b === 'J' || b === 'U' || b === 'O'){return null}
-
 
     //turn null values into '' to query the subsitution matrix
     if (a === undefined) { a = ''; }

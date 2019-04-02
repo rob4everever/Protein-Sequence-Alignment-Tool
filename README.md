@@ -3,7 +3,9 @@
  
 #### Install
 
-System must have NodeJS installed
+System must have NodeJS and NPM installed installed
+
+From the command line, run the following:
 
 1) `npm install`
 2) `npm run start`
