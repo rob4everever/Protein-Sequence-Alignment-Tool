@@ -103,7 +103,7 @@ export default class Matrix extends React.Component {
                         </tbody>
                     }
                 </table>
-                <Results results={this.results} />
+                <Results results={this.results} needleman={this.props.needleman} />
             </div>
         );
     }

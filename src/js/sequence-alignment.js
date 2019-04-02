@@ -22,6 +22,7 @@ export default class SequenceAligner {
         this.gap = gap;
         this.needleman = needleman;
         this.scoresystem = scoresystem;
+
         this.traceback = [];
         this.st1 = [];
         this.st2 = [];
@@ -66,6 +67,102 @@ export default class SequenceAligner {
     }
 
     /**
+     * Perform local alignment using the Smith-Waterman algorithm
+     */
+    scoreLocalAlignment() {
+        
+        //Find the biggest value in the score matrix
+        var b = -2000;
+        var x, y;
+        for (var i = 1; i < this.scoreArray.length; i++) {
+            for (var j = 1; j < this.scoreArray[0].length; j++) {
+                if (this.scoreArray[i][j] > b) {
+                    x = i; y = j;
+                }
+            }
+        }
+
+        //Score with only positive values
+        if (this.scoresystem === 'custom') {
+            for (let i = 1; i <= this.s1.length; i++) {
+                for (let j = 1; j <= this.s2.length; j++) {
+                    var diag = this.scoreArray[i - 1][j - 1] + (this.s1[i - 1] === this.s2[j - 1] ? this.match : this.miss);
+                    var up = this.scoreArray[i - 1][j] + this.gap;
+                    var left = this.scoreArray[i][j - 1] + this.gap;
+                    var max = 0;
+
+                    if (diag < 0 && up < 0 && left < 0) {
+                        var max = 0;
+                    }
+                    else {
+                        var max = Math.max(diag, up, left);
+                    }
+                    this.scoreArray[i][j] = max;
+                }
+            }
+        }
+        else if (this.scoresystem === 'blosum') {
+            for (let i = 1; i <= this.s1.length; i++) {
+                for (let j = 1; j <= this.s2.length; j++) {
+                    var diag = this.scoreArray[i - 1][j - 1] + scoreMatch_blosum(this.s1[i - 1], this.s2[j - 1]);
+                    var up = this.scoreArray[i - 1][j] + parseInt(this.gap);
+                    var left = this.scoreArray[i][j - 1] + parseInt(this.gap);
+
+                    if (diag < 0 && up < 0 && left < 0) {
+                        var max = 0;
+                    }
+                    else {
+                        var max = Math.max(diag, up, left);
+                    }
+                    this.scoreArray[i][j] = max;
+                }
+            }
+        }
+
+        //fill in the traceback matrix
+        this.fillInTracebackMatrix();
+        this.localTraceback(x, y);
+    }
+
+    /**
+     * Recursive function that follows the optimal path of the matrix until a 0 has been reached
+     * 
+     * @param {i} x coordinate of the highest value in the matrix 
+     * @param {j} y coordinate of the highest value in the matrix
+     */
+    localTraceback(i, j) {
+        console.log(this.st1);
+        console.log(this.op);
+        if (i > 0 || j > 0) {
+            while (this.scoreArray[i][j] > 0) {
+                console.log(this.scoreArray[i][j]);
+                if (this.traceback[i][j] === "D") {
+                    this.st1.push(this.s1[i - 1]);
+                    this.st2.push(this.s2[j - 1]);
+                    this.op.push([i + 1, j + 1]);
+                    return this.localTraceback(i - 1, j - 1);
+                }
+                else if (this.traceback[i][j] === "L") {
+                    this.st1.push("*");
+                    this.st2.push(this.s2[j - 1]);
+                    this.op.push([i + 1, j + 1]);
+
+                    return this.localTraceback(i, j - 1);
+                }
+                else if (this.traceback[i][j] === "U") {
+                    this.st1.push(this.s1[i - 1]);
+                    this.st2.push("*");
+                    this.op.push([i + 1, j + 1]);
+                    return this.localTraceback(i - 1, j);
+                }
+            }
+        }
+        else {
+            return 0;
+        }
+    }
+
+    /**
      * Scores an alignment globally using the Needleman-Wunsch algorithm
      */
     scoreGlobalAlignment() {
@@ -86,7 +183,6 @@ export default class SequenceAligner {
         else if (this.scoresystem === 'blosum') {
             for (let i = 1; i <= this.s1.length; i++) {
                 for (let j = 1; j <= this.s2.length; j++) {
-                    `    `
                     this.scoreArray[i][j] = Math.max(
                         this.scoreArray[i - 1][j - 1] + scoreMatch_blosum(this.s1[i - 1], this.s2[j - 1]),
                         this.scoreArray[i - 1][j] + parseInt(this.gap),
@@ -95,17 +191,31 @@ export default class SequenceAligner {
                 }
             }
         }
-
         this.fillInTracebackMatrix();
     }
 
+    /**
+     * Adds an appropiate gap penalty to the matrix
+     */
     addGapPenalty() {
-        for (let i = 1; i < this.s1.length + 1; i++) {
-            for (let j = 1; j < this.s2.length + 1; j++) {
-                this.scoreArray[0][j] = parseInt(this.gap) * j;
-                this.scoreArray[i][0] = parseInt(this.gap) * i;
-                this.traceback[0][j] = "L";
-                this.traceback[i][0] = "U";
+        if (this.needleman) {
+            for (let i = 1; i < this.s1.length + 1; i++) {
+                for (let j = 1; j < this.s2.length + 1; j++) {
+                    this.scoreArray[0][j] = parseInt(this.gap) * j;
+                    this.scoreArray[i][0] = parseInt(this.gap) * i;
+                    this.traceback[0][j] = "L";
+                    this.traceback[i][0] = "U";
+                }
+            }
+        }
+        else {
+            for (let i = 1; i < this.s1.length + 1; i++) {
+                for (let j = 1; j < this.s2.length + 1; j++) {
+                    this.scoreArray[0][j] = 0;
+                    this.scoreArray[i][0] = 0;
+                    this.traceback[0][j] = "L";
+                    this.traceback[i][0] = "U";
+                }
             }
         }
     }
@@ -114,26 +224,44 @@ export default class SequenceAligner {
      * Completes a traceback matrix 
      */
     fillInTracebackMatrix() {
-
         //Loop through each value in he score matrix and determine which direction a cell got its score
-        for (var i = this.scoreArray.length - 1; i > 0; i--) {
-            for (var j = this.scoreArray[0].length - 1; j > 0; j--) {
-                var diag = this.scoreArray[i - 1][j - 1] + (this.s2[i - 1] === this.s1[j - 1] ? parseInt(this.match) : parseInt(this.miss));
-                var left = this.scoreArray[i][j - 1] + parseInt(this.gap);
-                var up = this.scoreArray[i - 1][j] + parseInt(this.gap);
-                var max = Math.max(diag, left, up);
+        if (this.needleman) {
+            for (var i = this.scoreArray.length - 1; i > 0; i--) {
+                for (var j = this.scoreArray[0].length - 1; j > 0; j--) {
+                    var diag = this.scoreArray[i - 1][j - 1] + (this.s2[i - 1] === this.s1[j - 1] ? parseInt(this.match) : parseInt(this.miss));
+                    var left = this.scoreArray[i][j - 1] + parseInt(this.gap);
+                    var up = this.scoreArray[i - 1][j] + parseInt(this.gap);
+                    var max = Math.max(diag, left, up);
 
-                if (max === diag) {
-                    this.traceback[i][j] = "D";
-                } else if (max === up) {
-                    this.traceback[i][j] = "U";
-                } else if (max === left) {
-                    this.traceback[i][j] = "L";
+                    if (max === diag) {
+                        this.traceback[i][j] = "D";
+                    } else if (max === up) {
+                        this.traceback[i][j] = "U";
+                    } else if (max === left) {
+                        this.traceback[i][j] = "L";
+                    }
+                }
+            }
+            this.followPath(this.s1.length, this.s2.length);
+        }
+        else {
+            for (var i = this.scoreArray.length - 1; i > 0; i--) {
+                for (var j = this.scoreArray[0].length - 1; j > 0; j--) {
+                    var diag = this.scoreArray[i - 1][j - 1] + (this.s2[i - 1] === this.s1[j - 1] ? parseInt(this.match) : parseInt(this.miss));
+                    var left = this.scoreArray[i][j - 1] + parseInt(this.gap);
+                    var up = this.scoreArray[i - 1][j] + parseInt(this.gap);
+                    var max = Math.max(diag, left, up);
+
+                    if (max === diag) {
+                        this.traceback[i][j] = "D";
+                    } else if (max === up) {
+                        this.traceback[i][j] = "U";
+                    } else if (max === left) {
+                        this.traceback[i][j] = "L";
+                    }
                 }
             }
         }
-
-        this.followPath(this.s1.length, this.s2.length);
     }
 
     /**
@@ -163,12 +291,12 @@ export default class SequenceAligner {
 
                 if (this.scoresystem === "custom") {
                     var calculation = "Score derived from the diagonal cell" + '<br />'
-                        + this.scoreArray[i - 1][j - 1] + " + " + (this.s2[j - 1] === this.s1[i - 1] ? parseInt(this.match) : parseInt(this.miss)) 
+                        + this.scoreArray[i - 1][j - 1] + " + " + (this.s2[j - 1] === this.s1[i - 1] ? parseInt(this.match) : parseInt(this.miss))
                         + " = " + (this.scoreArray[i - 1][j - 1] + (this.s2[j - 1] === this.s1[i - 1] ? parseInt(this.match) : parseInt(this.miss)));
                 }
                 else {
                     var calculation = "Score derived from the diagonal cell" + '<br />'
-                        + this.scoreArray[i - 1][j - 1] + " + " + scoreMatch_blosum(this.s1[i - 1], this.s2[j - 1]) 
+                        + this.scoreArray[i - 1][j - 1] + " + " + scoreMatch_blosum(this.s1[i - 1], this.s2[j - 1])
                         + " = " + (this.scoreArray[i - 1][j - 1] + scoreMatch_blosum(this.s1[i - 1], this.s2[j - 1]));
                 }
 

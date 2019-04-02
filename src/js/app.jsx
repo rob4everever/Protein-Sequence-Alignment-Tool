@@ -12,8 +12,8 @@ class App extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            sequence1: 'WAHA',
-            sequence2: 'HHASU',
+            sequence1: 'AND',
+            sequence2: 'SEND',
             needleman: true,
             scoresystem: 'blosum',
             gappenalty: -8,
